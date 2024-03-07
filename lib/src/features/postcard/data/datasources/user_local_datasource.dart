@@ -1,10 +1,11 @@
+import 'package:deeper_riverpod_education/src/features/postcard/data/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../../shared/domain/entities/user.dart';
+import '../../domain/entities/user.dart';
 
 abstract class UserDatasource {
   Future<User?> getUserData();
-  Future<void> saveUserData(User userdata);
+  Future<void> saveUserData(UserModel userdata);
   Future<void> removeUserData();
 }
 
@@ -27,11 +28,11 @@ class UserLocalDatasource extends UserDatasource {
   }
 
   @override
-  Future<void> saveUserData(User userdata) async {
+  Future<void> saveUserData(UserModel userdata) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('name', userdata.name.value);
+    await prefs.setString('name', userdata.name);
 
-    await prefs.setString('birthDate', userdata.birthDate.toIso8601String());
+    await prefs.setString('birthDate', userdata.birthDate);
   }
 
   @override

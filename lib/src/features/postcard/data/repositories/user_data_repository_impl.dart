@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:deeper_riverpod_education/src/features/postcard/data/datasources/user_local_datasource.dart';
+import 'package:deeper_riverpod_education/src/features/postcard/domain/entities/user.dart';
 import 'package:deeper_riverpod_education/src/features/postcard/domain/repositories/user_data_repository.dart';
-import 'package:deeper_riverpod_education/src/shared/domain/entities/user.dart';
 import 'package:flutter/material.dart';
+
+import '../models/user_model.dart';
 
 class UserDataRepositoryImpl extends UserDataRepository with ChangeNotifier {
   UserDataRepositoryImpl(this.userLocalDatasource) {
@@ -33,6 +35,6 @@ class UserDataRepositoryImpl extends UserDataRepository with ChangeNotifier {
   Future<void> saveUserData(User userdata) {
     user = userdata;
     notifyListeners();
-    return userLocalDatasource.saveUserData(userdata);
+    return userLocalDatasource.saveUserData(UserModel.fromEntity(userdata));
   }
 }

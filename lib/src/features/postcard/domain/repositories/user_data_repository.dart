@@ -1,4 +1,4 @@
-import '../../../../shared/domain/entities/user.dart';
+import '../entities/user.dart';
 
 abstract class UserDataRepository {
   Future<void> getUserData();

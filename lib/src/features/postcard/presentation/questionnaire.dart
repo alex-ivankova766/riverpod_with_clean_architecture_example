@@ -1,4 +1,4 @@
-import 'package:deeper_riverpod_education/src/shared/domain/entities/user.dart';
+import 'package:deeper_riverpod_education/src/features/postcard/domain/entities/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,6 +24,7 @@ class _QuestionnaireState extends ConsumerState<Questionnaire> {
       builder: (BuildContext builderContext) {
         return Container(
           height: 200.0,
+          padding: const EdgeInsets.all(15),
           color: Colors.grey,
           child: CupertinoDatePicker(
             mode: CupertinoDatePickerMode.date,
@@ -52,70 +53,83 @@ class _QuestionnaireState extends ConsumerState<Questionnaire> {
       appBar: AppBar(title: const Text('What about you?')),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          const Spacer(
+            flex: 1,
+          ),
           _Name(nameController: _nameController),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Expanded(
-                  child: Text(
-                    'Дата рождения',
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          Container(
+            padding: const EdgeInsets.all(15),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Expanded(
+                    child: Text(
+                      'Choose your birthdate',
                     ),
-                    margin: const EdgeInsets.only(top: 5, bottom: 15),
-                    child: TextFormField(
-                      readOnly: true,
-                      onTap: () {
-                        _selectDate(context);
-                      },
-                      controller: birthDateController,
-                      textCapitalization: TextCapitalization.words,
-                      decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                          borderSide: const BorderSide(
-                            color: Colors.white,
-                            width: 1.0,
+                  ),
+                  Expanded(
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      ),
+                      margin: const EdgeInsets.only(top: 5, bottom: 15),
+                      child: TextFormField(
+                        readOnly: true,
+                        onTap: () {
+                          _selectDate(context);
+                        },
+                        controller: birthDateController,
+                        textCapitalization: TextCapitalization.words,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                            borderSide: const BorderSide(
+                              color: Colors.white,
+                              width: 1.0,
+                            ),
                           ),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                          borderSide: const BorderSide(
-                            color: Colors.red,
-                            width: 1.0,
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                            borderSide: const BorderSide(
+                              color: Colors.red,
+                              width: 1.0,
+                            ),
                           ),
+                          focusedErrorBorder: const OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25.0)),
+                              borderSide: BorderSide(color: Colors.white)),
+                          focusedBorder: const OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25.0)),
+                              borderSide: BorderSide(color: Colors.white)),
+                          contentPadding: const EdgeInsets.only(
+                              top: 15, left: 15, right: 15, bottom: 15),
                         ),
-                        focusedErrorBorder: const OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(25.0)),
-                            borderSide: BorderSide(color: Colors.white)),
-                        focusedBorder: const OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(25.0)),
-                            borderSide: BorderSide(color: Colors.white)),
-                        contentPadding: const EdgeInsets.only(
-                            top: 15, left: 15, right: 15, bottom: 15),
                       ),
                     ),
                   ),
-                ),
-              ]),
-          ElevatedButton(
-            onPressed: () {
-              if (_nameController.text == '' || birthDate == null) {
-                return;
-              }
-              final enteredName = _nameController.text;
-              userData.saveUserData(
-                  User(name: Name.dirty(enteredName), birthDate: birthDate!));
-            },
-            child: const Center(child: Text('Apply')),
+                ]),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 50),
+            child: ElevatedButton(
+              onPressed: () {
+                if (_nameController.text == '' || birthDate == null) {
+                  return;
+                }
+                final enteredName = _nameController.text;
+                userData.saveUserData(
+                    User(name: Name.dirty(enteredName), birthDate: birthDate!));
+              },
+              child: const Center(child: Text('Apply')),
+            ),
+          ),
+          const Spacer(
+            flex: 2,
           ),
         ],
       ),
@@ -132,11 +146,14 @@ class _Name extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: _nameController,
-      decoration: InputDecoration(
-        labelText: 'Ваше имя',
-        labelStyle: Theme.of(context).textTheme.bodyMedium,
+    return Container(
+      padding: const EdgeInsets.all(15),
+      child: TextField(
+        controller: _nameController,
+        decoration: InputDecoration(
+          labelText: 'Enter your name',
+          labelStyle: Theme.of(context).textTheme.bodyMedium,
+        ),
       ),
     );
   }
